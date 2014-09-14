@@ -86,7 +86,7 @@ public class MostUsedLayoutFragment extends Activity
                     return second.getNumTime() - first.getNumTime();
                 }
             });
-            
+
             theLL.removeAllViews();
             for(int i = 0; i < theApps.length; i++) {
                 theLL.addView(getView(i, theApps[i], true));
