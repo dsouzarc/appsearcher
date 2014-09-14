@@ -67,10 +67,7 @@ public class MostUsedLayoutFragment extends Activity
         loadingNum.setPadding(15, 20, 0, 0);
         loadingNum.setText("0/" + theApps.length);
 
-        theLL = new LinearLayout(theC);
-        theLL.setOrientation(LinearLayout.VERTICAL);
-        theLL.setPadding(10, 10, 0, 0);
-        theLL.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
+        theLL = (LinearLayout) findViewById(R.id.appLayout);
 
         theLL.addView(loading);
         theLL.addView(loadingNum);
