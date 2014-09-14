@@ -44,6 +44,7 @@ public class MostUsedLayoutFragment extends Activity
             setTheme(android.R.style.Theme_Holo);
 
         super.onCreate(savedInstance);
+        setContentView(R.layout.most_used_layout);
 
         theC = getApplicationContext();
 
@@ -68,22 +69,29 @@ public class MostUsedLayoutFragment extends Activity
         loadingNum.setText("0/" + theApps.length);
 
         theLL = (LinearLayout) findViewById(R.id.appLayout);
-
         theLL.addView(loading);
         theLL.addView(loadingNum);
         theLL.addView(theBar);
+        //new ShowApps().execute();
+        theLL.post(new ShowAppsRunnable());
+    }
 
-        setContentView(theLL);
-
-        Arrays.sort(theApps, new Comparator<AppInfo>() {
-            public int compare(AppInfo first, AppInfo second) {
-                if(first.getNumTime() == second.getNumTime())
-                    return first.getAppName().compareTo(second.getAppName());
-                return second.getNumTime() - first.getNumTime();
+    private class ShowAppsRunnable implements Runnable {
+        @Override
+        public void run() {
+            Arrays.sort(theApps, new Comparator<AppInfo>() {
+                public int compare(AppInfo first, AppInfo second) {
+                    if(first.getNumTime() == second.getNumTime())
+                        return first.getAppName().compareTo(second.getAppName());
+                    return second.getNumTime() - first.getNumTime();
+                }
+            });
+            
+            theLL.removeAllViews();
+            for(int i = 0; i < theApps.length; i++) {
+                theLL.addView(getView(i, theApps[i], true));
             }
-        });
-
-        new ShowApps().execute();
+        }
     }
 
     private class ShowApps extends AsyncTask<Void, Integer, TextView[]> {
@@ -126,14 +134,12 @@ public class MostUsedLayoutFragment extends Activity
 
 
     /** Return TextView for each app */
-    public TextView getView(final int counter, final AppInfo app, boolean showNumOpened)
-    {
-        TextView theView = new TextView(theC);
+    public TextView getView(final int counter, final AppInfo app, boolean showNumOpened) {
+        final TextView theView = new TextView(theC);
 
-        if(counter % 2 == 0)
-        {
+        if(counter % 2 == 0) {
             if(!isHoloDark)
-                theView.setTextColor(android.graphics.Color.GRAY);
+                theView.setTextColor(Color.GRAY);
                 //theView.setTextColor(Color.parseColor("#ff0099cc"));//<-- Blue
             else
                 theView.setTextColor(Color.WHITE);
@@ -146,8 +152,7 @@ public class MostUsedLayoutFragment extends Activity
                 theView.setTextColor(Color.GRAY);
         }
 
-        if(showNumOpened)
-        {
+        if(showNumOpened) {
             int n = app.getNumTime();
             String text = "(" + n + " time";
             if(n == 0 || n > 1)
