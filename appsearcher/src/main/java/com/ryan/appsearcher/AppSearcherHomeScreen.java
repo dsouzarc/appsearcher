@@ -509,6 +509,7 @@ public class AppSearcherHomeScreen extends TabActivity
         switch (item.getItemId()) {
             //If video record button in ActionMenu clicked
             case R.id.settings_icon_action:
+
                 startActivity(new Intent(theC, SettingsActivity.class));
                 finish();
                 return true;

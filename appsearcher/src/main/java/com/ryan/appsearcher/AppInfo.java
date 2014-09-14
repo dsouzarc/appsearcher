@@ -1,6 +1,8 @@
 package com.ryan.appsearcher;
 
-public class AppInfo implements Comparable<AppInfo>
+import java.io.Serializable;
+
+public class AppInfo implements Comparable<AppInfo>, Serializable
 {
     private String appName = "";
     private String appOpen = "";

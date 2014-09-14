@@ -35,8 +35,7 @@ public class MostUsedLayoutFragment extends Activity
     private static final String isHoloDarkKey = "HoloDark";
 
     @Override
-    public void onCreate(Bundle savedInstance)
-    {
+    public void onCreate(Bundle savedInstance) {
         //Set the theme, either Holo Dark or Holo Light
         isHoloDark = isHoloDark();
         if(!isHoloDark)
