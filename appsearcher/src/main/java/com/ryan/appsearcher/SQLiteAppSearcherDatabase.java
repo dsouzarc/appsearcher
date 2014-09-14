@@ -20,16 +20,14 @@ public class SQLiteAppSearcherDatabase extends SQLiteOpenHelper
     // Database Name
     private static final String DATABASE_NAME = "AppSearcherDB";
 
-    public SQLiteAppSearcherDatabase(Context context)
-    {
+    public SQLiteAppSearcherDatabase(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db)
-    {
+    public void onCreate(SQLiteDatabase db) {
         // SQL statement to create book table
-        String CREATE_APPSEARCHER_TABLE = "CREATE TABLE appsearcher ( " +
+        final String CREATE_APPSEARCHER_TABLE = "CREATE TABLE appsearcher ( " +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "AppName TEXT, "+
                 "AppOpen TEXT, "+
@@ -40,8 +38,7 @@ public class SQLiteAppSearcherDatabase extends SQLiteOpenHelper
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
-    {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // Drop older books table if existed
         db.execSQL("DROP TABLE IF EXISTS appsearcher");
 
@@ -60,10 +57,10 @@ public class SQLiteAppSearcherDatabase extends SQLiteOpenHelper
     public void addApp(final AppInfo theApp)
     {
         // 1. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
+        final SQLiteDatabase db = this.getWritableDatabase();
 
         // 2. create ContentValues to add key "column"/value
-        ContentValues values = new ContentValues();
+        final ContentValues values = new ContentValues();
         values.put(KEY_APP_NAME, theApp.getAppName());
         values.put(KEY_APP_OPEN, theApp.getAppOpen());
         values.put(KEY_NUM_OPEN, theApp.getNumTime());
@@ -77,14 +74,14 @@ public class SQLiteAppSearcherDatabase extends SQLiteOpenHelper
 
     public List<AppInfo> getAllApps()
     {
-        Set<AppInfo> theApps = new HashSet<AppInfo>();
+        final Set<AppInfo> theApps = new HashSet<AppInfo>();
 
         // 1. build the query
         String query = "SELECT  * FROM " + TABLE_APPSEARCHER;
 
         // 2. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        final SQLiteDatabase db = this.getWritableDatabase();
+        final Cursor cursor = db.rawQuery(query, null);
 
         // 3. go over each row, build book and add it to list
         if (cursor.moveToFirst())
@@ -101,17 +98,16 @@ public class SQLiteAppSearcherDatabase extends SQLiteOpenHelper
         return new ArrayList<AppInfo>(theApps);
     }
 
-    public HashMap<String, Short> getHashMapApps()
-    {
+    public HashMap<String, Short> getHashMapApps() {
         //The Hash Map
-        HashMap<String, Short> theMap = new HashMap<String, Short>();
+        final HashMap<String, Short> theMap = new HashMap<String, Short>();
 
         // 1. build the query
-        String query = "SELECT  * FROM " + TABLE_APPSEARCHER;
+        final String query = "SELECT  * FROM " + TABLE_APPSEARCHER;
 
         // 2. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
-        Cursor cursor = db.rawQuery(query, null);
+        final SQLiteDatabase db = this.getWritableDatabase();
+        final Cursor cursor = db.rawQuery(query, null);
 
         // 3. go over each row, build book and add it to list
         if (cursor.moveToFirst())
@@ -135,8 +131,7 @@ public class SQLiteAppSearcherDatabase extends SQLiteOpenHelper
         SQLiteDatabase db = this.getWritableDatabase();
 
         // 2. delete
-        try
-        {
+        try {
             db.delete(TABLE_APPSEARCHER,
                     KEY_APP_OPEN+" = ?",
                     new String[] {theApp.getAppOpen()});
@@ -147,20 +142,17 @@ public class SQLiteAppSearcherDatabase extends SQLiteOpenHelper
     }
 
     //Delete everything
-    public void deleteAllApps()
-    {
-        SQLiteDatabase theDB = this.getWritableDatabase();
+    public void deleteAllApps() {
+        final SQLiteDatabase theDB = this.getWritableDatabase();
         theDB.delete("appsearcher", null, null);
         theDB.close();
     }
 
-    public void addApps(AppInfo[] theApps)
-    {
-        SQLiteDatabase theDB = this.getWritableDatabase();
+    public void addApps(AppInfo[] theApps) {
+        final SQLiteDatabase theDB = this.getWritableDatabase();
         theDB.beginTransaction();
-        for(AppInfo anApp : theApps)
-        {
-            ContentValues theVals = new ContentValues();
+        final ContentValues theVals = new ContentValues();
+        for(AppInfo anApp : theApps) {
             theVals.put(KEY_APP_NAME, anApp.getAppName());
             theVals.put(KEY_APP_OPEN, anApp.getAppOpen());
             theVals.put(KEY_NUM_OPEN, anApp.getNumTime());
