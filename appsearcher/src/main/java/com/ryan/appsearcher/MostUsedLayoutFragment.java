@@ -54,7 +54,7 @@ public class MostUsedLayoutFragment extends Activity
         theApps = removeDuplicates(mySQLiteAdapter.getAllApps());
         mySQLiteAdapter.close();
 
-        TextView loading = new TextView(theC);
+        final TextView loading = new TextView(theC);
         loading.setTextSize(20);
         loading.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
         loading.setText("Rendering " + theApps.length + " apps in order of use... Please be patient");
@@ -79,8 +79,7 @@ public class MostUsedLayoutFragment extends Activity
         setContentView(theLL);
 
         Arrays.sort(theApps, new Comparator<AppInfo>() {
-            public int compare(AppInfo first, AppInfo second)
-            {
+            public int compare(AppInfo first, AppInfo second) {
                 if(first.getNumTime() == second.getNumTime())
                     return first.getAppName().compareTo(second.getAppName());
                 return second.getNumTime() - first.getNumTime();
@@ -90,32 +89,39 @@ public class MostUsedLayoutFragment extends Activity
         new ShowApps().execute();
     }
 
-    private class ShowApps extends AsyncTask<Void, Void, Void>
-    {
+    private class ShowApps extends AsyncTask<Void, Integer, TextView[]> {
         @Override
-        protected Void doInBackground(Void... params)
-        {
-            return null;
+        protected TextView[] doInBackground(Void... params) {
+            final TextView[] allViews = new TextView[theApps.length];
+            for(int i = 0; i < theApps.length; i++) {
+                allViews[i] = getView(i, theApps[i], true);
+                if(i % 5 == 0) {
+                    publishProgress(i);
+                }
+            }
+            return allViews;
         }
 
         @Override
-        protected void onPostExecute(Void result)
-        {
+        protected void onProgressUpdate(Integer... appNums) {
+            final int appNum = appNums[0];
+            theBar.setProgress((appNum / theApps.length) * 100);
+            loadingNum.setText(appNum + "/" + theApps.length);
+        }
+
+        @Override
+        protected void onPostExecute(TextView[] appViews) {
+            theLL.removeAllViews();
             theLL = new LinearLayout(theC);
             theLL.setOrientation(LinearLayout.VERTICAL);
             theLL.setPadding(10, 10, 0, 0);
             theLL.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
-
             theSV = new ScrollView(theC);
             theSV.setLayoutParams(new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
 
-            for(int i = 0; i < theApps.length; i++)
-            {
-                theLL.addView(getView(i, theApps[i], true));
-                theBar.setProgress((i / theApps.length) * 100);
-                loadingNum.setText(i + "/" + theApps.length);
+            for(TextView app : appViews) {
+                theLL.addView(app);
             }
-
             theSV.addView(theLL);
             setContentView(theSV);
         }
