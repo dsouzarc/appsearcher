@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/more_options"
+        android:icon="@android:drawable/ic_menu_more"
+        android:showAsAction="always"
+        android:title="More" >
+
+        <menu>
+            <!-- <item
+                android:id="@+id/most_used_sort_icon_action"
+                android:icon="@android:drawable/ic_menu_sort_by_size"
+                android:title="Sort by most used"
+                android:onClick="actionBarClickEvent"
+                android:showAsAction="always" />
+
+            <item
+                android:id="@+id/alphabetical_sort_icon_action"
+                android:icon="@android:drawable/ic_menu_sort_alphabetically"
+                android:title="Sort lexicographically"
+                android:onClick="actionBarClickEvent"
+                android:showAsAction="never" /> -->
+
+            <item
+                android:id="@+id/refresh_list_action"
+                android:title="Refresh App list"
+                android:icon="@drawable/refresh"
+                android:onClick="actionBarClickEvent"
+                android:showAsAction="never"/>
+
+            <item
+                android:id="@+id/clear_ram_icon_action"
+                android:icon="@android:drawable/ic_menu_delete"
+                android:title="Clear RAM"
+                android:onClick="actionBarClickEvent"
+                android:showAsAction="never"/>
+            <item
+                android:id="@+id/settings_icon_action"
+                android:icon="@android:drawable/ic_menu_manage"
+                android:title="Settings"
+                android:onClick="actionBarClickEvent"
+                android:showAsAction="never" />
+        </menu>
+    </item>
+</menu>
